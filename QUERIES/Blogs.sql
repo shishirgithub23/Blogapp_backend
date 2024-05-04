@@ -1,0 +1,25 @@
+CREATE TABLE Blogs
+(
+    BlogId INT PRIMARY KEY IDENTITY(1,1),
+    BlogTitle NVARCHAR(255) NOT NULL,
+    BlogContent NVARCHAR(MAX) NOT NULL,
+    UserId INT NOT NULL,
+    CreatedAt DATETIME NOT NULL DEFAULT GETUTCDATE(),
+    
+    CONSTRAINT FK_Users_Blogs FOREIGN KEY (UserId)
+    REFERENCES Users(UserId)
+);
+
+ALTER TABLE Blogs
+ADD Image VARCHAR(MAX) NULL;
+
+ALTER TABLE Blogs
+ADD CategoryId INT NULL;
+
+ALTER TABLE Blogs
+ADD CONSTRAINT FK_Blog_Category
+FOREIGN KEY (CategoryId) REFERENCES Category(CategoryId);
+
+
+
+
