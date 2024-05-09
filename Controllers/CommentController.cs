@@ -45,16 +45,17 @@ namespace Blog.Controllers
             return Ok(comment);
         }
 
-        [HttpPost("blogs/{blogId}")]
-        [Authorize(Roles = "Blogger")]
-        public async Task<IActionResult> AddCommentToBlog(int blogId, [FromBody] CommentPostDto commentDto)
+        [HttpPost]
+        //[Authorize(Roles = "Blogger")]
+        [Route("postcomment")]
+        public async Task<IActionResult> AddCommentToBlog([FromBody] CommentPostDto commentDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var isSuccess = await _commentRepository.AddCommentToBlog(blogId, commentDto);
+            var isSuccess = await _commentRepository.AddCommentToBlog(commentDto.blogId, commentDto);
 
             if (!isSuccess)
             {

@@ -76,3 +76,161 @@ D:\Dotnet Projects\Blog\obj\Debug\net8.0\Blog.sourcelink.json
 D:\Dotnet Projects\Blog\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 D:\Dotnet Projects\Blog\bin\Debug\net8.0\BCrypt.Net-Next.dll
 D:\Dotnet Projects\Blog\bin\Debug\net8.0\Blog.staticwebassets.runtime.json
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\appsettings.Development.json
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\appsettings.json
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\Blog.staticwebassets.runtime.json
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\Blog.exe
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\Blog.deps.json
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\Blog.runtimeconfig.json
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\Blog.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\Blog.pdb
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\Azure.Core.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\Azure.Identity.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\BCrypt.Net-Next.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\Dapper.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\Microsoft.Bcl.AsyncInterfaces.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\Microsoft.Data.SqlClient.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\Microsoft.Identity.Client.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\Microsoft.Identity.Client.Extensions.Msal.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\Microsoft.OpenApi.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\Microsoft.SqlServer.Server.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\System.Configuration.ConfigurationManager.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\System.Data.SqlClient.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\System.Memory.Data.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\System.Runtime.Caching.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\System.Security.Cryptography.ProtectedData.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\de\Microsoft.Data.SqlClient.resources.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\es\Microsoft.Data.SqlClient.resources.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\fr\Microsoft.Data.SqlClient.resources.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\it\Microsoft.Data.SqlClient.resources.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\ja\Microsoft.Data.SqlClient.resources.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\ko\Microsoft.Data.SqlClient.resources.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\pt-BR\Microsoft.Data.SqlClient.resources.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\ru\Microsoft.Data.SqlClient.resources.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\zh-Hans\Microsoft.Data.SqlClient.resources.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\zh-Hant\Microsoft.Data.SqlClient.resources.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\runtimes\unix\lib\net8.0\Microsoft.Data.SqlClient.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\runtimes\win\lib\net8.0\Microsoft.Data.SqlClient.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\runtimes\win-arm64\native\sni.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\runtimes\win-x64\native\sni.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\runtimes\win-x86\native\sni.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+D:\BlogProject\BlogBackend\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Runtime.Caching.dll
+D:\BlogProject\BlogBackend\obj\Debug\net8.0\Blog.csproj.AssemblyReference.cache
+D:\BlogProject\BlogBackend\obj\Debug\net8.0\Blog.GeneratedMSBuildEditorConfig.editorconfig
+D:\BlogProject\BlogBackend\obj\Debug\net8.0\Blog.AssemblyInfoInputs.cache
+D:\BlogProject\BlogBackend\obj\Debug\net8.0\Blog.AssemblyInfo.cs
+D:\BlogProject\BlogBackend\obj\Debug\net8.0\Blog.csproj.CoreCompileInputs.cache
+D:\BlogProject\BlogBackend\obj\Debug\net8.0\Blog.MvcApplicationPartsAssemblyInfo.cs
+D:\BlogProject\BlogBackend\obj\Debug\net8.0\Blog.MvcApplicationPartsAssemblyInfo.cache
+D:\BlogProject\BlogBackend\obj\Debug\net8.0\Blog.sourcelink.json
+D:\BlogProject\BlogBackend\obj\Debug\net8.0\staticwebassets.build.json
+D:\BlogProject\BlogBackend\obj\Debug\net8.0\staticwebassets.development.json
+D:\BlogProject\BlogBackend\obj\Debug\net8.0\staticwebassets\msbuild.Blog.Microsoft.AspNetCore.StaticWebAssets.props
+D:\BlogProject\BlogBackend\obj\Debug\net8.0\staticwebassets\msbuild.build.Blog.props
+D:\BlogProject\BlogBackend\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.Blog.props
+D:\BlogProject\BlogBackend\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.Blog.props
+D:\BlogProject\BlogBackend\obj\Debug\net8.0\staticwebassets.pack.json
+D:\BlogProject\BlogBackend\obj\Debug\net8.0\scopedcss\bundle\Blog.styles.css
+D:\BlogProject\BlogBackend\obj\Debug\net8.0\Blog.csproj.Up2Date
+D:\BlogProject\BlogBackend\obj\Debug\net8.0\Blog.dll
+D:\BlogProject\BlogBackend\obj\Debug\net8.0\refint\Blog.dll
+D:\BlogProject\BlogBackend\obj\Debug\net8.0\Blog.pdb
+D:\BlogProject\BlogBackend\obj\Debug\net8.0\Blog.genruntimeconfig.cache
+D:\BlogProject\BlogBackend\obj\Debug\net8.0\ref\Blog.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\appsettings.Development.json
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\appsettings.json
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\Blog.staticwebassets.runtime.json
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\Blog.exe
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\Blog.deps.json
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\Blog.runtimeconfig.json
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\Blog.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\Blog.pdb
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\Azure.Core.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\Azure.Identity.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\BCrypt.Net-Next.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\Dapper.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\Microsoft.Bcl.AsyncInterfaces.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\Microsoft.Data.SqlClient.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\Microsoft.Identity.Client.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\Microsoft.Identity.Client.Extensions.Msal.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\Microsoft.OpenApi.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\Microsoft.SqlServer.Server.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\System.Configuration.ConfigurationManager.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\System.Data.SqlClient.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\System.Memory.Data.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\System.Runtime.Caching.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\System.Security.Cryptography.ProtectedData.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\de\Microsoft.Data.SqlClient.resources.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\es\Microsoft.Data.SqlClient.resources.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\fr\Microsoft.Data.SqlClient.resources.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\it\Microsoft.Data.SqlClient.resources.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\ja\Microsoft.Data.SqlClient.resources.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\ko\Microsoft.Data.SqlClient.resources.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\pt-BR\Microsoft.Data.SqlClient.resources.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\ru\Microsoft.Data.SqlClient.resources.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\zh-Hans\Microsoft.Data.SqlClient.resources.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\zh-Hant\Microsoft.Data.SqlClient.resources.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\runtimes\unix\lib\net8.0\Microsoft.Data.SqlClient.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\runtimes\win\lib\net8.0\Microsoft.Data.SqlClient.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\runtimes\win-arm64\native\sni.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\runtimes\win-x64\native\sni.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\runtimes\win-x86\native\sni.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Runtime.Caching.dll
+D:\Bhanja Blog\Bislerium_backend\obj\Debug\net8.0\Blog.csproj.AssemblyReference.cache
+D:\Bhanja Blog\Bislerium_backend\obj\Debug\net8.0\Blog.GeneratedMSBuildEditorConfig.editorconfig
+D:\Bhanja Blog\Bislerium_backend\obj\Debug\net8.0\Blog.AssemblyInfoInputs.cache
+D:\Bhanja Blog\Bislerium_backend\obj\Debug\net8.0\Blog.AssemblyInfo.cs
+D:\Bhanja Blog\Bislerium_backend\obj\Debug\net8.0\Blog.csproj.CoreCompileInputs.cache
+D:\Bhanja Blog\Bislerium_backend\obj\Debug\net8.0\Blog.MvcApplicationPartsAssemblyInfo.cs
+D:\Bhanja Blog\Bislerium_backend\obj\Debug\net8.0\Blog.MvcApplicationPartsAssemblyInfo.cache
+D:\Bhanja Blog\Bislerium_backend\obj\Debug\net8.0\Blog.sourcelink.json
+D:\Bhanja Blog\Bislerium_backend\obj\Debug\net8.0\staticwebassets.build.json
+D:\Bhanja Blog\Bislerium_backend\obj\Debug\net8.0\staticwebassets.development.json
+D:\Bhanja Blog\Bislerium_backend\obj\Debug\net8.0\staticwebassets\msbuild.Blog.Microsoft.AspNetCore.StaticWebAssets.props
+D:\Bhanja Blog\Bislerium_backend\obj\Debug\net8.0\staticwebassets\msbuild.build.Blog.props
+D:\Bhanja Blog\Bislerium_backend\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.Blog.props
+D:\Bhanja Blog\Bislerium_backend\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.Blog.props
+D:\Bhanja Blog\Bislerium_backend\obj\Debug\net8.0\staticwebassets.pack.json
+D:\Bhanja Blog\Bislerium_backend\obj\Debug\net8.0\scopedcss\bundle\Blog.styles.css
+D:\Bhanja Blog\Bislerium_backend\obj\Debug\net8.0\Blog.csproj.Up2Date
+D:\Bhanja Blog\Bislerium_backend\obj\Debug\net8.0\Blog.dll
+D:\Bhanja Blog\Bislerium_backend\obj\Debug\net8.0\refint\Blog.dll
+D:\Bhanja Blog\Bislerium_backend\obj\Debug\net8.0\Blog.pdb
+D:\Bhanja Blog\Bislerium_backend\obj\Debug\net8.0\Blog.genruntimeconfig.cache
+D:\Bhanja Blog\Bislerium_backend\obj\Debug\net8.0\ref\Blog.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\Newtonsoft.Json.dll
+D:\Bhanja Blog\Bislerium_backend\bin\Debug\net8.0\System.Net.WebSockets.WebSocketProtocol.dll

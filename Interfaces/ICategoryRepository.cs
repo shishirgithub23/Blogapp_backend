@@ -7,7 +7,7 @@ namespace Blog.Interfaces
         Task<IEnumerable<Category>> GetAllCategories();
         Task<Category> GetCategoryById(int id);
         Task<bool> AddCategory(CategoryDto categoryDto);
-        Task<CategoryDto> UpdateCategory(int id, CategoryDto categoryDto);
+        Task<CategoryDto> UpdateCategory(UpdateCategoryDTO categoryDto);
         Task DeleteCategory(int id);
     }
 }

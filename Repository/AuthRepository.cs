@@ -11,6 +11,7 @@ using Blog.Interfaces;
 using Blog.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
 
 namespace Blog.Repository
 {
@@ -19,17 +20,19 @@ namespace Blog.Repository
         private readonly AppDbContext _context;
         private readonly IConfiguration _configuration;
         private readonly IEmailRepository _emailService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public AuthRepository(AppDbContext context, IConfiguration configuration, IEmailRepository emailService)
+        public AuthRepository(AppDbContext context, IConfiguration configuration, IEmailRepository emailService, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
             _configuration = configuration;
             _emailService = emailService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<bool> UserExistsByUsername(string username)
         {
-            var query = "SELECT COUNT(*) FROM Users WHERE UserName = @UserName";
+            var query = "SELECT COUNT(*) FROM Users WHERE UserName = @UserName and active=1";
             using (var connection = _context.CreateConnection())
             {
                 var result = await connection.ExecuteScalarAsync<int>(query, new { UserName = username });
@@ -39,7 +42,7 @@ namespace Blog.Repository
 
         public async Task<bool> UserExistsByEmail(string email)
         {
-            var query = "SELECT COUNT(*) FROM Users WHERE Email = @Email";
+            var query = "SELECT COUNT(*) FROM Users WHERE Email = @Email and active=1";
             using (var connection = _context.CreateConnection())
             {
                 var result = await connection.ExecuteScalarAsync<int>(query, new { Email = email });
@@ -73,23 +76,38 @@ namespace Blog.Repository
             return true;
         }
 
-        public async Task<string> Login(LoginDto loginDto)
+        public async Task<LoginResponseData> Login(LoginDto loginDto)
         {
-            var query = "SELECT * FROM Users WHERE UserName = @UserName";
+            var query = "SELECT * FROM Users WHERE email = @UserName and active=1";
             using (var connection = _context.CreateConnection())
             {
-                var user = await connection.QueryFirstOrDefaultAsync<Users>(query, new { UserName = loginDto.UserName });
+                var user =  connection.Query<Users>(query, new { UserName = loginDto.UserName }).ToList();
 
-                if (user == null || !BCrypt.Net.BCrypt.Verify(loginDto.Password, user.PasswordHash))
-                    return null;
+                if (user.Count() ==0)
+                {
+                    throw new Exception("User Does Not Exist!");
+                }
 
-                var role = (UserRole)user.Role;
+                if (!BCrypt.Net.BCrypt.Verify(loginDto.Password, user[0].PasswordHash))
+                {
+                    throw new Exception("User Name Or Password Is Not Valid!");
+                }
+
+                var role = (UserRole)user[0].Role;
+                var role1 = (int)role;
 
                 var key = _configuration["JwtSettings:SecretKey"];
                 var issuer = _configuration["JwtSettings:Issuer"];
                 var audience = _configuration["JwtSettings:Audience"];
 
-                return GenerateJwtToken(user.UserId, role, key, issuer, audience);
+                var generated_token = GenerateJwtToken(user[0].UserId, role, key, issuer, audience);
+
+               var login_response_data = new LoginResponseData {
+                   Token=generated_token,
+                   Role= role1==1?"ADMIN": role1 == 0?"USER":"BLOGGER"
+               };
+
+                return login_response_data;
             }
         }
 
@@ -117,7 +135,7 @@ namespace Blog.Repository
 
         private async Task<Users> GetUserByEmail(string email)
         {
-            var query = "SELECT * FROM Users WHERE Email = @Email";
+            var query = "SELECT * FROM Users WHERE Email = @Email and active=1";
             using (var connection = _context.CreateConnection())
             {
                 return await connection.QueryFirstOrDefaultAsync<Users>(query, new { Email = email });
@@ -144,7 +162,7 @@ namespace Blog.Repository
             user.ResetToken = resetToken;
             user.ResetTokenExpiry = DateTime.UtcNow.AddHours(1);
 
-            var query = "UPDATE Users SET ResetToken = @ResetToken, ResetTokenExpiry = @ResetTokenExpiry WHERE UserId = @UserId";
+            var query = "UPDATE Users SET ResetToken = @ResetToken, ResetTokenExpiry = @ResetTokenExpiry WHERE UserId = @UserId and active=1";
             using (var connection = _context.CreateConnection())
             {
                 await connection.ExecuteAsync(query, new
@@ -191,6 +209,67 @@ namespace Blog.Repository
 
                 return rowsAffected > 0;
             }
+        }
+
+        public string ChangePassword(ChangePasswordDTO data)
+        {
+            var user_id =GetUserIdFromContext();
+
+            var query = "SELECT * FROM Users WHERE UserId = @UserId and active=1";
+
+            using (var connection = _context.CreateConnection())
+            {
+                var user = connection.Query<Users>(query, new { UserId =user_id }).ToList();
+
+                if (user.Count == 0)
+                {
+                    throw new Exception("User does not exist.");
+                }
+
+                if (data.password != data.confirm_password)
+                {
+                    throw new Exception("Password and confirm password doesnot match.");
+                }
+
+                if (user == null || !BCrypt.Net.BCrypt.Verify(data.current_password, user[0].PasswordHash))
+                {
+                    throw new Exception("Old password doesnot match!");
+                }
+
+                var hashed_password= BCrypt.Net.BCrypt.HashPassword(data.password);
+
+                var updateQuery = @"UPDATE Users 
+                                    SET PasswordHash = @PasswordHash
+                                    WHERE UserId = @UserId and active=1";
+
+                connection.Execute(updateQuery, new
+                {
+                    PasswordHash = hashed_password,
+                    UserId = user_id
+                });
+
+            
+                var key = _configuration["JwtSettings:SecretKey"];
+                var issuer = _configuration["JwtSettings:Issuer"];
+                var audience = _configuration["JwtSettings:Audience"];
+
+                return GenerateJwtToken(user[0].UserId, user[0].Role, key, issuer, audience);
+            }
+
+        }
+
+        private int GetUserIdFromContext()
+        {
+            var userIdClaim = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+            if (!_httpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
+            {
+                throw new ApplicationException("User is not authenticated.");
+            }
+            if (userIdClaim != null && int.TryParse(userIdClaim.Value, out int userId))
+            {
+                return userId;
+            }
+            throw new ApplicationException("User ID claim not found in JWT token.");
         }
     }
 }
