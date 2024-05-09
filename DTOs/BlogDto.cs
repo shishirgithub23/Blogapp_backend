@@ -1,4 +1,6 @@
-﻿namespace Blog.DTOs
+﻿using Microsoft.AspNetCore.Hosting.Server;
+
+namespace Blog.DTOs
 {
     public class BlogDto
     {
@@ -49,6 +51,8 @@
         public int CommnetDislike { get; set; }
         public DateTime CommentCreatedAt { get; set; }
         public string Comment_UserName { get; set; }
+
+        public int comment_count {get;set; }
 
     }
 

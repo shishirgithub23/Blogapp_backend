@@ -4169,11 +4169,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Bhanja Blog\\Bislerium_backend\\Blog.csproj",
+      "projectUniqueName": "D:\\Bhnaja Blog New\\Blogapp_backend\\Blog.csproj",
       "projectName": "Blog",
-      "projectPath": "D:\\Bhanja Blog\\Bislerium_backend\\Blog.csproj",
+      "projectPath": "D:\\Bhnaja Blog New\\Blogapp_backend\\Blog.csproj",
       "packagesPath": "C:\\Users\\DeLL\\.nuget\\packages\\",
-      "outputPath": "D:\\Bhanja Blog\\Bislerium_backend\\obj\\",
+      "outputPath": "D:\\Bhnaja Blog New\\Blogapp_backend\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\DeLL\\AppData\\Roaming\\NuGet\\NuGet.Config",

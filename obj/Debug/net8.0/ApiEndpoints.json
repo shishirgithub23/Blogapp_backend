@@ -140,7 +140,7 @@
   {
     "ContainingType": "Blog.Controllers.AuthController",
     "Method": "SendResetLink",
-    "RelativePath": "api/v1/Auth/send-reset-link",
+    "RelativePath": "api/v1/Auth/sendresetlink",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -276,6 +276,22 @@
   },
   {
     "ContainingType": "Blog.Controllers.BlogController",
+    "Method": "DownvoteBlogComment",
+    "RelativePath": "api/v1/Blog/DownVoteBlogComment",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "commentid",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Blog.Controllers.BlogController",
     "Method": "GetBlogById",
     "RelativePath": "api/v1/Blog/getBlogbyid",
     "HttpMethod": "GET",
@@ -376,6 +392,22 @@
     "Parameters": [
       {
         "Name": "blogId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Blog.Controllers.BlogController",
+    "Method": "UpVoteComment",
+    "RelativePath": "api/v1/Blog/UpVoteBlogcomment",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "commentid",
         "Type": "System.Int32",
         "IsRequired": false
       }

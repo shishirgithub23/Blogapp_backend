@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Z4mHCY5DGCezN8mPhnRbSGG1h7AvHf7J0oHUkJ4UglmcIiIVc607K52BHLYcA88tB++JaV3CNYsxqBocmS3Apg==",
+  "dgSpecHash": "kxKFqMK0yJVn8B+QXvXc/Dlm4Laib+ei3NUSb6RGIwlzWU/5cMYzKfgqEBL3WYeP932JoYmIYBF1rIHcUE9rng==",
   "success": true,
-  "projectFilePath": "D:\\Bhanja Blog\\Bislerium_backend\\Blog.csproj",
+  "projectFilePath": "D:\\Bhnaja Blog New\\Blogapp_backend\\Blog.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\DeLL\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\DeLL\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
