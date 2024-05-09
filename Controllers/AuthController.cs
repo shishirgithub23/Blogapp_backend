@@ -50,7 +50,7 @@ namespace Blog.Controllers
             return Ok(new { Message = "Test login" });
         }
 
-        [HttpPost("send-reset-link")]
+        [HttpPost("sendresetlink")]
         public async Task<IActionResult> SendResetLink([FromBody] EmailDto emailDto)
         {
             var result = await _authRepository.SendResetLink(emailDto.Email);

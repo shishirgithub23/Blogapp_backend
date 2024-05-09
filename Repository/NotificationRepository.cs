@@ -35,30 +35,34 @@ namespace Blog.Repository
             var data_to_Return= new List<dynamic>();
             var userid = GetUserIdFromContext();
 
+            
             var query = @"
                     select top 6 * from 
                     (
                     select 
-	                        _comment.CommentText as notification_text,
+                            CONCAT('Your Post',' ' ,'""', _blog.blogtitle,'""' , ' ' , 'was commented by' , ' ','""',_user_comm.username,'""','as' ,' ') as notification_title,
+	                        CONCAT('""',_comment.CommentText,'""') as notification_text,
 		                    _user_comm.username as notification_refernece,
 		                    _comment.CreatedAt as created_at
 		                    from dbo.Comments _comment
                     inner join dbo.Blogs _blog on _blog.BlogId=_comment.BlogId 
                     left join dbo.Users _user_comm on _user_comm.UserId=_comment.UserId
-                    where _blog.UserId=@userid
+                    where _blog.UserId=@userid and _user_comm.userId <>@userid 
 
                     union all 
 
                     select 
-                            case when _comment.Upvotes=1 then 'Liked'
-			                    when _comment.Downvotes=1 then 'Dislike'
-		                     end as notification_text,
+                           CONCAT('Your Post',' ' ,'""', _blog.blogtitle,'""' , ' ' , 'was Liked by' , ' ','""', _user_for_comm.username,'""') as notification_title,
+                           -- case when _comment.Upvotes=1 then 'Liked'
+			                  --  when _comment.Downvotes=1 then 'Dislike'
+		                    -- end as notification_text,
+                             '' as notification_text,
 		                    _user_for_comm.username as notification_refernece,
 		                    _comment.CreatedAt as created_at
 		                    from dbo.BlogVotes _comment
                     inner join dbo.Blogs _blog on _blog.BlogId=_comment.BlogId 
                     left join dbo.Users _user_for_comm on _user_for_comm.UserId=_comment.UserId
-                    where _blog.UserId=@userid
+                    where _blog.UserId=@userid and _comment.userid<>@userid
                    )x
                 ";
 

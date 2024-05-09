@@ -132,9 +132,9 @@ order by _blog.CreatedAt desc
                 inner join dbo.Category _category on _category.CategoryId=_blog.CategoryId
             left join (
                         select 
-                            count(_cm_v.UpVotes) as comment_like , 
-                            count(_cm_v.DownVotes) as comment_dislike ,
-                            _cm_v.commentId ,
+                            sum(_cm_v.UpVotes) as comment_like , 
+                            sum(_cm_v.DownVotes) as comment_dislike ,
+                            _cm_v.commentId,
                             _user.username,
                             _cm_v.createdAt
                             
@@ -179,6 +179,7 @@ order by _blog.CreatedAt desc
                     createdAt = y.Key.createdAt,
                     blog_like = y.Key.blog_like,
                     blog_dislike = y.Key.blog_dislike,
+                    comment_count=y.Count(x=>x.CommentId>0),
                     UserName = y.Key.UserName,
                     CategoryName = y.Key.CategoryName,
                     comments = y.Select(z => new CommentsData { CommentId = z.CommentId, 
@@ -580,6 +581,100 @@ order by _blog.CreatedAt desc
                 var blogs =  connection.Query<dynamic>(query).ToList();
                 return blogs;
             }
+        }
+
+        public async Task<bool> UpvoteBlogComment(int commentid)
+        {
+            var userid = GetUserIdFromContext();
+
+            bool rowsAffected_res = false;
+            var query = @"
+                 IF NOT EXISTS (SELECT 1 FROM CommentVotes WHERE CommentId = @CommentId AND UserId = @UserId)
+                BEGIN
+                    INSERT INTO CommentVotes (UserId,CommentId, Upvotes, Downvotes,CreatedAt)
+                    VALUES (@UserId, @CommentId, 1, 0,@CreatedAt)
+                END
+                ELSE
+                BEGIN
+                    IF (SELECT Upvotes FROM CommentVotes WHERE CommentId = @CommentId AND UserId = @UserId) = 1
+                    BEGIN
+                        UPDATE CommentVotes 
+                        SET Upvotes = 0
+                        WHERE CommentId = @CommentId AND UserId = @UserId
+                    END
+                    ELSE
+                    BEGIN
+                        UPDATE CommentVotes 
+                        SET Upvotes = 1, Downvotes = 0
+                        WHERE CommentId = @CommentId AND UserId = @UserId
+                    END
+                END";
+            try
+            {
+                using (var connection = _context.CreateConnection())
+                {
+                    int rowsAffected = await connection.ExecuteAsync(query, new { CommentId = commentid, UserId = userid, CreatedAt = DateTime.Now });
+
+                    rowsAffected_res= rowsAffected > 0;
+                   
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+           return rowsAffected_res;
+        }
+
+        public async Task<bool> DownvoteBlogComment(int commentid)
+        {
+            var userid = GetUserIdFromContext();
+            bool rowsAffected_res = false;
+
+            var query = @"
+                IF NOT EXISTS (SELECT 1 FROM CommentVotes WHERE CommentId = @CommentId AND UserId = @UserId)
+                BEGIN
+                    INSERT INTO CommentVotes (UserId, CommentId , Upvotes, Downvotes,CreatedAt)
+                    VALUES (@UserId, @CommentId, 0, 1,@CreatedAt)
+                END
+                ELSE
+                BEGIN
+                    IF (SELECT Downvotes FROM CommentVotes WHERE CommentId = @CommentId AND UserId = @UserId) = 1
+                    BEGIN
+                        UPDATE CommentVotes 
+                        SET Downvotes = 0
+                        WHERE CommentId = @CommentId AND UserId = @UserId
+                    END
+                    ELSE
+                    BEGIN
+                        IF (SELECT Upvotes FROM CommentVotes WHERE  CommentId = @CommentId AND UserId = @UserId) = 1
+                        BEGIN
+                            UPDATE CommentVotes 
+                            SET Upvotes = 0, Downvotes = 1
+                            WHERE CommentId = @CommentId AND UserId = @UserId
+                        END
+                        ELSE
+                        BEGIN
+                            UPDATE CommentVotes
+                            SET Downvotes = 1
+                            WHERE CommentId = @CommentId AND UserId = @UserId
+                        END
+                    END
+                END";
+            try
+            {
+                using (var connection = _context.CreateConnection())
+                {
+                    var rowsAffected = await connection.ExecuteAsync(query, new { CommentId = commentid, UserId = userid, CreatedAt = DateTime.Now });
+                    rowsAffected_res= rowsAffected > 0;
+                    
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+           return rowsAffected_res;
         }
     }
 }

@@ -26,5 +26,7 @@ namespace Blog.Interfaces
 
        List<dynamic> GetBlogInfoByCategory();
        List<dynamic> GetRecentBlogPost();
+       Task<bool> UpvoteBlogComment(int commentid);
+       Task<bool> DownvoteBlogComment(int commentid);
     }
 }
