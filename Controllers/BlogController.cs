@@ -199,5 +199,24 @@ namespace Blog.Controllers
             return Ok(blogs);
         }
 
+
+        [HttpPost("UpVoteBlogcomment")]
+        [Authorize]
+        public async Task<IActionResult> UpVoteComment(int commentid)
+        {
+            //int userId = _blogRepository.GetCurrentUserId();
+            var result = await _blogRepository.UpvoteBlogComment(commentid);
+            return Ok(result);
+        }
+
+        [Authorize]
+        [HttpPost("DownVoteBlogComment")]
+        public async Task<IActionResult> DownvoteBlogComment(int commentid)
+        {
+            //int userId = _blogRepository.GetCurrentUserId();
+            var result = await _blogRepository.DownvoteBlogComment(commentid);
+            return Ok(result);
+        }
+
     }
 }
