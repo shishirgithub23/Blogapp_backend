@@ -20,19 +20,24 @@ namespace Blog.Repository
 
         public async Task<IEnumerable<Category>> GetAllCategories()
         {
-            var query = @"SELECT * FROM Category";
-
-            using (var connection = _context.CreateConnection())
+            var query = @"SELECT * FROM Category where active=1";
+            var categories = new List<Category>();
+            try
             {
-                var categories = await connection.QueryAsync<Category>(query);
+                using (var connection = _context.CreateConnection())
+                {
+                    categories = connection.Query<Category>(query).ToList();
+                }
 
-                return categories;
+            }catch (Exception ex)
+            {
             }
+            return categories;
         }
 
         public async Task<Category> GetCategoryById(int id)
         {
-            var query = @"SELECT * FROM Category WHERE CategoryId = @CategoryId";
+            var query = @"SELECT * FROM Category WHERE CategoryId = @CategoryId and active=1";
 
             using (var connection = _context.CreateConnection())
             {
@@ -48,7 +53,7 @@ namespace Blog.Repository
             {
                 var query = @"
                     INSERT INTO Category (CategoryName)
-                    VALUES (@CategoryName);";
+                    VALUES (@CategoryName)";
 
                 using (var connection = _context.CreateConnection())
                 {
@@ -64,17 +69,18 @@ namespace Blog.Repository
             }
         }
 
-        public async Task<CategoryDto> UpdateCategory(int id, CategoryDto categoryDto)
+        public async Task<CategoryDto> UpdateCategory(UpdateCategoryDTO categoryDto)
         {
             var query = @"
                 UPDATE Category 
                 SET CategoryName = @CategoryName
-                WHERE CategoryId = @CategoryId;
-                SELECT * FROM Category WHERE CategoryId = @CategoryId;";
+                WHERE CategoryId = @CategoryId and active=1;
+
+                SELECT * FROM Category WHERE CategoryId = @CategoryId and active=1";
 
             using (var connection = _context.CreateConnection())
             {
-                var updatedCategory = await connection.QueryFirstOrDefaultAsync<Category>(query, new { CategoryId = id, CategoryName = categoryDto.CategoryName });
+                var updatedCategory = await connection.QueryFirstOrDefaultAsync<Category>(query, new { CategoryId = categoryDto.CategoryId, CategoryName = categoryDto.CategoryName });
 
                 if (updatedCategory == null)
                 {
@@ -94,11 +100,20 @@ namespace Blog.Repository
         {
             try
             {
-                var query = @"DELETE FROM Category WHERE CategoryId = @CategoryId";
+                var query = @"update dbo.category 
+                                set active=0
+                               output inserted.*
+                             WHERE CategoryId = @CategoryId
+                                and active=1
+                                    ";
 
                 using (var connection = _context.CreateConnection())
                 {
-                    await connection.ExecuteAsync(query, new { CategoryId = id });
+                    var removedData=connection.Query<dynamic>(query, new { CategoryId = id });
+                    if (removedData.Count() == 0)
+                    {
+                        throw new Exception("Data Not Found!");
+                    }
                 }
             }
             catch (Exception ex)

@@ -18,7 +18,8 @@ namespace Blog.Controllers
             _blogRepository = blogRepository;
         }
 
-        [HttpGet]
+        [HttpGet("getblogs")]
+        //[Authorize]
         public async Task<IActionResult> GetBlogs()
         {
             var blogs = await _blogRepository.GetBlogs();
@@ -32,7 +33,8 @@ namespace Blog.Controllers
         }
 
 
-        [HttpGet("{blogId}")]
+        [HttpGet("getBlogbyid")]
+        //[Authorize]
         public async Task<IActionResult> GetBlogById(int blogId)
         {
             var blog = await _blogRepository.GetBlogById(blogId);
@@ -47,8 +49,9 @@ namespace Blog.Controllers
 
 
         [HttpPost]
-        [Authorize(Roles = "Blogger")]
+        [Authorize(Roles = "Admin,Blogger")]
         [Consumes("multipart/form-data")]
+        [Route("createblogpost")]
         public async Task<IActionResult> CreateBlog([FromForm] BlogInsertDto blogDto)
         {
             if (!ModelState.IsValid)
@@ -72,30 +75,29 @@ namespace Blog.Controllers
         }
 
 
-
-
-        [HttpPut("{blogId}")]
-        [Authorize(Roles = "Blogger")]
+        [HttpPost("updateblog")]
+        [Authorize(Roles = "Admin,Blogger")]
         [Consumes("multipart/form-data")]
-        public async Task<IActionResult> UpdateBlog(int blogId, [FromForm] BlogInsertDto blogDto)
+        public async Task<IActionResult> UpdateBlog([FromForm] UpdateBlogDTO blogDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var isSuccess = await _blogRepository.UpdateBlog(blogId, blogDto);
+            var isSuccess = await _blogRepository.UpdateBlog(blogDto);
 
             if (!isSuccess)
             {
-                return BadRequest(new { message = "Image size should be less than or equal to 3 MB" });
+                throw new Exception("Image size should be less than or equal to 5 MB");//;(new { message = "Image size should be less than or equal to 3 MB" });
             }
 
-            var blogExists = await _blogRepository.BlogExists(blogId);
+            var blogExists = await _blogRepository.BlogExists(blogDto.BlogId);
 
             if (!blogExists)
             {
-                return NotFound(new { message = "Blog not found with that ID" });
+                throw new Exception("Blog not found with that ID");
+               // return NotFound(new { message = "Blog not found with that ID" });
             }
 
             return Ok(new { message = "Blog updated successfully" });
@@ -103,8 +105,8 @@ namespace Blog.Controllers
 
 
 
-        [HttpDelete("{blogId}")]
-        [Authorize(Roles = "Blogger")]
+        [HttpPost("deleteBlog")]
+        [Authorize(Roles = "Admin,Blogger")]
         public async Task<IActionResult> DeleteBlog(int blogId)
         {
             var isDeleted = await _blogRepository.DeleteBlog(blogId);
@@ -122,8 +124,8 @@ namespace Blog.Controllers
 
         // Blog Votes Endpoints Here
 
-        [HttpPost("{blogId}/upvote")]
-        [Authorize(Roles = "User, Blogger")]
+        [HttpPost("UpVoteBlog")]
+        [Authorize]
         public async Task<IActionResult> UpvoteBlog(int blogId)
         {
             int userId = _blogRepository.GetCurrentUserId();
@@ -131,8 +133,8 @@ namespace Blog.Controllers
             return Ok(result);
         }
 
-        [HttpPost("{blogId}/downvote")]
-        [Authorize(Roles = "User, Blogger")]
+        [Authorize]
+        [HttpPost("DownVoteBlog")]
         public async Task<IActionResult> DownvoteBlog(int blogId)
         {
             int userId = _blogRepository.GetCurrentUserId();
@@ -165,6 +167,36 @@ namespace Blog.Controllers
         {
             var count = await _blogRepository.GetDownvotesCount(blogId);
             return Ok(new { Downvotes = count });
+        } 
+
+        [HttpGet("getCategoryddl")]
+        [Authorize(Roles = "Admin,Blogger")]
+        //[Consumes("application/json")]
+        public IActionResult CategoryDropDown()
+        {
+            var data = _blogRepository.CategoryDropDown();
+            return Ok(data);
+        }
+
+        [HttpGet("GetBlogInfoByCategory")]
+       // [Authorize(Roles = "Admin,Blogger")]
+        public IActionResult GetBlogCountByCategory()
+        {
+            var data = _blogRepository.GetBlogInfoByCategory();
+            return Ok(data);
+        }
+
+        [HttpGet("GetRecentBlogPost")]
+        //[Authorize(Roles = "Admin,Blogger")]
+        public IActionResult GetRecentBlogPost()
+        {
+            var blogs =  _blogRepository.GetRecentBlogPost();
+
+            if (blogs == null)
+            {
+                return NotFound(new { message = "Something Went Wrong While Fetching" });
+            }
+            return Ok(blogs);
         }
 
     }

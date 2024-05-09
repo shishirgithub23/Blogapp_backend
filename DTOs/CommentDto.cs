@@ -10,6 +10,7 @@
 
     public class CommentPostDto
     {
+        public int blogId { get; set; }
         public string CommentText { get; set; }
     }
 

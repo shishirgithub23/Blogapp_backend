@@ -3,6 +3,7 @@ using Blog.DTOs;
 using Blog.Interfaces;
 using Blog.Models;
 using Dapper;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using System.Security.Claims;
 
 namespace Blog.Repository
@@ -38,25 +39,158 @@ namespace Blog.Repository
 
         public async Task<IEnumerable<BlogDisplayDto>> GetBlogs()
         {
-            var query = @"SELECT BlogId, BlogTitle, BlogContent, UserId, Image, CategoryId FROM Blogs";
+            var query = @"SELECT _blog.BlogId, 
+		 _blog.BlogTitle, 
+		 _blog.BlogContent,
+		 _blog.UserId, 
+		 _blog.Image, 
+		 _blog.CategoryId,
+		 _blog.createdAt,
+		 _comm.CommentText,
+         _comm.CommentId,
+		 coalesce(_votes.Upvotes,0) as blog_like,
+		 coalesce(_votes.Downvotes,0) as blog_dislike,
+		 _user.UserName,
+        _category.CategoryName
+	FROM Blogs _blog
+  left join dbo.Comments _comm on _comm.BlogId= _blog.BlogId
+  left join (select sum(Upvotes) as upVotes, sum(Downvotes) as downvotes , BlogId 
+  
+	from  dbo.BlogVotes group by BlogId)_votes on _votes.BlogId=_blog.BlogId
+	inner join dbo.Users _user on _user.userId=_blog.UserId
+    inner join dbo.Category _category on _category.CategoryId=_blog.CategoryId
+order by _blog.CreatedAt desc
+";
 
             using (var connection = _context.CreateConnection())
             {
                 var blogs = await connection.QueryAsync<BlogDisplayDto>(query);
 
-                return blogs.ToList();
+                var grouped_data = blogs.GroupBy(x => new 
+                {
+                    x.BlogId,
+                    x.BlogTitle,
+                    x.BlogContent,
+                    x.UserId,
+                    x.Image,
+                    x.CategoryId,
+                    x.createdAt,
+                    x.blog_like,
+                    x.blog_dislike,
+                    x.UserName,
+                    x.CategoryName
+
+                }).Select(y => new BlogDisplayDto
+                {
+                    BlogId=y.Key.BlogId,
+                    BlogTitle = y.Key.BlogTitle,
+                    BlogContent = y.Key.BlogContent,
+                    UserId = y.Key.UserId,
+                    Image = y.Key.Image,
+                    CategoryId = y.Key.CategoryId,
+                    createdAt = y.Key.createdAt,
+                    blog_like = y.Key.blog_like,
+                    blog_dislike = y.Key.blog_dislike,
+                    UserName = y.Key.UserName,
+                    CategoryName = y.Key.CategoryName,
+                    comments = y.Select(z => new CommentsData { CommentId=z.CommentId,CommentText=z.CommentText }).ToList()    
+                }).ToList();
+                return grouped_data;
             }
         }
 
-        public async Task<BlogDisplayDto> GetBlogById(int id)
+        public async Task<List<BlogDisplayDto>> GetBlogById(int id)
         {
-            var query = @"SELECT BlogId, BlogTitle, BlogContent, UserId, Image, CategoryId FROM Blogs WHERE BlogId = @BlogId";
+            var query = @"SELECT _blog.BlogId, 
+		         _blog.BlogTitle, 
+		         _blog.BlogContent,
+		         _blog.UserId, 
+		         _blog.Image, 
+		         _blog.CategoryId,
+		         _blog.createdAt,
+
+		         coalesce(_comm.CommentText,'') as CommentText,
+                 coalesce(_comm.CommentId,0) as CommentId ,
+                 coalesce(_comm.createdAt,0) as CommentCreatedAt ,
+                 
+
+                 coalesce(cm_v.comment_like,0) as CommentLike,
+	             coalesce(cm_v.comment_dislike,0) as CommnetDislike,
+                 --coalesce(cm_v.createdAt,'') as Comment_CreatedAt,
+                 coalesce(cm_v.username ,'' ) as Comment_UserName,
+
+		         coalesce(_votes.Upvotes,0) as blog_like,
+		         coalesce(_votes.Downvotes,0) as blog_dislike,
+		         _user.UserName,
+                _category.CategoryName
+	        FROM Blogs _blog
+          left join dbo.Comments _comm on _comm.BlogId= _blog.BlogId
+          left join (select sum(Upvotes) as upVotes, sum(Downvotes) as downvotes , BlogId 
+  
+	        from  dbo.BlogVotes group by BlogId)_votes on _votes.BlogId=_blog.BlogId
+	        inner join dbo.Users _user on _user.userId=_blog.UserId
+                inner join dbo.Category _category on _category.CategoryId=_blog.CategoryId
+            left join (
+                        select 
+                            count(_cm_v.UpVotes) as comment_like , 
+                            count(_cm_v.DownVotes) as comment_dislike ,
+                            _cm_v.commentId ,
+                            _user.username,
+                            _cm_v.createdAt
+                            
+                         from dbo.commentvotes  _cm_v
+                        inner join dbo.users _user on _user.UserId =_cm_v.UserId
+
+                        group by commentId , _user.username,_cm_v.CreatedAt
+
+                )cm_v 
+
+		    on cm_v.commentId=_comm.CommentId 
+
+        WHERE _blog.BlogId = @BlogId
+        ";
 
             using (var connection = _context.CreateConnection())
             {
-                var blog = await connection.QueryFirstOrDefaultAsync<BlogDisplayDto>(query, new { BlogId = id });
+                var blog =  connection.Query<BlogDisplayDto>(query, new { BlogId = id }).ToList();
 
-                return blog;
+                var grouped_data = blog.GroupBy(x => new
+                {
+                    x.BlogId,
+                    x.BlogTitle,
+                    x.BlogContent,
+                    x.UserId,
+                    x.Image,
+                    x.CategoryId,
+                    x.createdAt,
+                    x.blog_like,
+                    x.blog_dislike,
+                    x.UserName,
+                    x.CategoryName
+
+                }).Select(y => new BlogDisplayDto
+                {
+                    BlogId=y.Key.BlogId,
+                    BlogTitle = y.Key.BlogTitle,
+                    BlogContent = y.Key.BlogContent,
+                    UserId = y.Key.UserId,
+                    Image = y.Key.Image,
+                    CategoryId = y.Key.CategoryId,
+                    createdAt = y.Key.createdAt,
+                    blog_like = y.Key.blog_like,
+                    blog_dislike = y.Key.blog_dislike,
+                    UserName = y.Key.UserName,
+                    CategoryName = y.Key.CategoryName,
+                    comments = y.Select(z => new CommentsData { CommentId = z.CommentId, 
+                                            CommentText = z.CommentText ,
+                                            CommentLike=z.CommentLike, 
+                                            CommnetDislike=z.CommnetDislike ,
+                                            CommentCreatedAt = z.CommentCreatedAt, 
+                                            Comment_UserName=z.Comment_UserName 
+                    }).ToList().Where(x=>x.CommentId>0).ToList()
+                }).ToList();
+
+                return grouped_data;
             }
         }
 
@@ -67,7 +201,7 @@ namespace Blog.Repository
             {
                 var userId = GetUserIdFromContext();
 
-                if (blogDto.Image != null && blogDto.Image.Length > 0 && blogDto.Image.Length <= 3 * 1024 * 1024)
+                if (blogDto.Image != null && blogDto.Image.Length > 0 && blogDto.Image.Length <= 5 * 1024 * 1024)
                 {
                     var imageName = Guid.NewGuid().ToString() + Path.GetExtension(blogDto.Image.FileName);
                     imagePath = Path.Combine("Uploads", imageName);
@@ -85,7 +219,8 @@ namespace Blog.Repository
 
                 var query = @"
                     INSERT INTO Blogs (BlogTitle, BlogContent, UserId, Image, CategoryId)
-                    VALUES (@BlogTitle, @BlogContent, @UserId, @Image, @CategoryId);";
+                    VALUES (@BlogTitle, @BlogContent, @UserId, @Image, @CategoryId);
+                ";
 
                 using (var connection = _context.CreateConnection())
                 {
@@ -121,13 +256,13 @@ namespace Blog.Repository
             }
         }
 
-        public async Task<bool> UpdateBlog(int blogId, BlogInsertDto blogDto)
+        public async Task<bool> UpdateBlog(UpdateBlogDTO blogDto)
         {
             try
             {
                 var userId = GetUserIdFromContext();
-                var oldBlog = await GetBlogById(blogId);
-                string imagePath = oldBlog.Image;
+                var oldBlog = await GetBlogById(blogDto.BlogId);
+                string imagePath = oldBlog[0].Image;
 
                 if (blogDto.Image != null && blogDto.Image.Length > 0 && blogDto.Image.Length <= 3 * 1024 * 1024)
                 {
@@ -140,9 +275,9 @@ namespace Blog.Repository
                         await blogDto.Image.CopyToAsync(fileStream);
                     }
 
-                    if (!string.IsNullOrEmpty(oldBlog.Image) && oldBlog.Image != imagePath)
+                    if (!string.IsNullOrEmpty(oldBlog[0].Image) && oldBlog[0].Image != imagePath)
                     {
-                        var oldImagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", oldBlog.Image);
+                        var oldImagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", oldBlog[0].Image);
                         if (File.Exists(oldImagePath))
                         {
                             File.Delete(oldImagePath);
@@ -151,7 +286,7 @@ namespace Blog.Repository
                 }
                 else if (blogDto.Image != null)
                 {
-                    return false;
+                    throw new Exception("Please Select Image");
                 }
 
                 var query = @"
@@ -167,13 +302,13 @@ namespace Blog.Repository
                         BlogContent = blogDto.BlogContent,
                         UserId = userId,
                         Image = imagePath,
-                        BlogId = blogId,
+                        BlogId = blogDto.BlogId,
                         CategoryId = blogDto.CategoryId,
                     });
 
                     if (rowsAffected > 0)
                     {
-                        await SaveBlogRevision(blogId, oldBlog);
+                        await SaveBlogRevision(blogDto.BlogId, oldBlog[0]);
                     }
                 }
 
@@ -227,16 +362,47 @@ namespace Blog.Repository
 
         public async Task<bool> DeleteBlog(int blogId)
         {
-            using (var connection = _context.CreateConnection())
+            var return_data = false;
+            try
             {
-                var deleteCommentsQuery = @"DELETE FROM Comments WHERE BlogId = @BlogId;";
-                await connection.ExecuteAsync(deleteCommentsQuery, new { BlogId = blogId });
+                using (var connection = _context.CreateConnection())
+                {
+                    var deletefromRevision = @"DELETE FROM dbo.BlogRevisions WHERE BlogId = @BlogId;";
+                    var deletefromRevision_ = await connection.ExecuteAsync(deletefromRevision, new { BlogId = blogId });
 
-                var deleteBlogQuery = @"DELETE FROM Blogs WHERE BlogId = @BlogId;";
-                var rowsAffected = await connection.ExecuteAsync(deleteBlogQuery, new { BlogId = blogId });
+                    var deletefromCommentVote = @"DELETE FROM dbo.CommentVotes
+                                                    WHERE commentId IN (
+                                                        SELECT _comm.commentId
+                                                        FROM Comments _comm
+                                                        WHERE _comm.blogId = @BlogId
+                                                    )";
+                    var deletefromcommentVote_ = await connection.ExecuteAsync(deletefromCommentVote, new { BlogId = blogId });
 
-                return rowsAffected > 0;
+                    var deletefromCommentRevision = @"DELETE FROM dbo.CommentRevisions WHERE BlogId = @BlogId;";
+                    var deletefromCommentRevision_ = await connection.ExecuteAsync(deletefromCommentRevision, new { BlogId = blogId });
+
+
+                    var deleteCommentsQuery = @"DELETE FROM Comments WHERE BlogId = @BlogId;";
+                    await connection.ExecuteAsync(deleteCommentsQuery, new { BlogId = blogId });
+
+                    var deleteFromBlogvotes = @"Delete from dbo.blogVotes where BlogId=@BlogId;";
+                    await connection.ExecuteAsync(deleteFromBlogvotes, new { BlogId = blogId });
+
+                    var deleteBlogQuery = @"DELETE FROM Blogs WHERE BlogId = @BlogId;";
+                    var rowsAffected = await connection.ExecuteAsync(deleteBlogQuery, new { BlogId = blogId });
+                    if (rowsAffected > 0)
+                    {
+                        return_data = true;
+                    }
+
+               
+                }
             }
+            catch (Exception ex)
+            {
+
+            }
+             return return_data;
         }
 
         // Blog Votes From Here
@@ -355,5 +521,65 @@ namespace Blog.Repository
             }
         }
 
+        public  Dictionary<string, object> CategoryDropDown()
+        {
+            var data= new Dictionary<string, object>();
+            var query = "select Categoryid as value , CategoryName as label from dbo.Category ";
+            try
+            {
+                using (var connection = _context.CreateConnection())
+                {
+                    var count =  connection.Query<dynamic>(query, new {});
+                    data.Add("categories", count);
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            return data;
+        }
+
+        public  List<dynamic> GetBlogInfoByCategory()
+        {
+
+            var data = new List<dynamic>();
+
+            var query = @" select _cat.CategoryName as name, 
+                                  count(_blog.BlogId) as postNumber,
+                                 _cat.categoryId  
+                        from Blogs _blog
+                         inner join dbo.Category _cat on _cat.CategoryId=_blog.CategoryId
+                          group by _cat.CategoryName,_cat.categoryId";
+            try
+            {
+                using (var connection = _context.CreateConnection())
+                {
+                    data =  connection.Query<dynamic>(query, new { }).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+        
+            }
+            return data;
+        }
+
+        public  List<dynamic> GetRecentBlogPost()
+        {
+            var query = @"SELECT top 5
+                  _blog.BlogId, 
+		         _blog.BlogTitle as title, 
+		         _blog.Image as image, 
+		         _blog.createdAt as date
+	        FROM Blogs _blog
+         order by _blog.createdAt desc
+        ";
+
+            using (var connection = _context.CreateConnection())
+            {
+                var blogs =  connection.Query<dynamic>(query).ToList();
+                return blogs;
+            }
+        }
     }
 }

@@ -19,7 +19,8 @@ namespace Blog.Controllers
             _categoryRepository = categoryRepository;
         }
 
-        [HttpGet]
+        [HttpGet("getallcategories")]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<Category>>> GetAllCategories()
         {
             var categories = await _categoryRepository.GetAllCategories();
@@ -45,8 +46,9 @@ namespace Blog.Controllers
             return Ok(category);
         }
 
-        [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [HttpPost("createcategory")]
+        [Authorize]
+       // [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddCategory([FromBody] CategoryDto categoryDto)
         {
             if (!ModelState.IsValid)
@@ -63,16 +65,17 @@ namespace Blog.Controllers
             return Ok(new { message = "Category added successfully" });
         }
 
-        [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateCategory(int id, [FromBody] CategoryDto categoryDto)
+        [HttpPost("updatecategory")]
+        //[Authorize(Roles = "Admin")]
+        [Authorize]
+        public async Task<IActionResult> UpdateCategory([FromBody] UpdateCategoryDTO categoryDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var updatedCategory = await _categoryRepository.UpdateCategory(id, categoryDto);
+            var updatedCategory = await _categoryRepository.UpdateCategory(categoryDto);
             if (updatedCategory == null)
             {
                 return NotFound(new { message = "Category not found with that Id" });
@@ -81,11 +84,12 @@ namespace Blog.Controllers
             return Ok(new { message = "Category updated successfully" });
         }
 
-        [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DeleteCategory(int id)
+        [HttpPost("deletecategory")]
+      //  [Authorize(Roles = "Admin")]
+        [Authorize]
+        public async Task<IActionResult> DeleteCategory(int categoryId)
         {
-            await _categoryRepository.DeleteCategory(id);
+            await _categoryRepository.DeleteCategory(categoryId);
             return NoContent();
         }
     }

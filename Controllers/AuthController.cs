@@ -32,13 +32,8 @@ namespace Blog.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
-            var token = await _authRepository.Login(loginDto);
-            if (token == null)
-            {
-                return Unauthorized(new { Message = "Invalid username or password" });
-            }
-
-            return Ok(new { Token = token });
+            var return_data = await _authRepository.Login(loginDto);
+            return Ok(return_data);
         }
 
         [HttpGet("admin")]
@@ -79,6 +74,19 @@ namespace Blog.Controllers
             }
 
             return BadRequest(new { Message = "Invalid token or token expired" });
+        } 
+
+        [HttpPost("changepassword")]
+        [Authorize]
+        public IActionResult ChangePassword(ChangePasswordDTO data)
+        {
+            var result = _authRepository.ChangePassword(data);
+
+            if (result!=null)
+            {
+                return Ok(new { Message = "Password changed successfully",token=result});
+            }
+            return BadRequest(new { Message = "Invalid!!!" });
         }
     }
 }

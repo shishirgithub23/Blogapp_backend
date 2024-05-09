@@ -12,6 +12,8 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Blog.Services;
+using Blog.ExceptionHandling;
+using Blog.Notification;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -100,9 +102,13 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddTransient<IEmailRepository, EmailRepository>();
 builder.Services.AddTransient<IRevisionHistoryRepository, RevisionHistoryRepository>();
+builder.Services.AddTransient<IDashboardRepository, DashboardRepository>();
+builder.Services.AddTransient<INotificationRepository, NotificationRepository>();
+
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -116,16 +122,20 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors(builder =>
 {
-    builder.AllowAnyOrigin()
-            .AllowAnyHeader()
-            .AllowAnyMethod();
+    builder.WithOrigins("http://localhost:3000") // Adjust with your React app URL
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials();
 });
 
+app.UseMiddleware<ExceptionHandlerMiddleware>();
+
+app.UseStaticFiles();
 
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
-
+app.MapHub<NotificationHub>("/notificationhub");
 app.Run();
