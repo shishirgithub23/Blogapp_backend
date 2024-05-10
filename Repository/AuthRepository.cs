@@ -192,7 +192,7 @@ namespace Blog.Repository
 
                 if (user == null)
                 {
-                    return false;
+                    throw new Exception("Some unexpected error occured during handling of request.");
                 }
 
                 var newPasswordHash = BCrypt.Net.BCrypt.HashPassword(newPassword);
