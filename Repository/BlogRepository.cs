@@ -567,11 +567,12 @@ order by _blog.CreatedAt desc
 
         public  List<dynamic> GetRecentBlogPost()
         {
-            var query = @"SELECT top 5
+            var query = @"SELECT top 10
                   _blog.BlogId, 
 		         _blog.BlogTitle as title, 
 		         _blog.Image as image, 
-		         _blog.createdAt as date
+		         _blog.createdAt as date,
+                 _blog.CategoryId
 	        FROM Blogs _blog
          order by _blog.createdAt desc
         ";
