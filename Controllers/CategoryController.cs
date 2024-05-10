@@ -19,6 +19,20 @@ namespace Blog.Controllers
             _categoryRepository = categoryRepository;
         }
 
+        [HttpGet("getallcategorieshome")]
+        public async Task<ActionResult<IEnumerable<Category>>> GetAllCategoriesForHome()
+        {
+            var categories = await _categoryRepository.GetAllCategories();
+
+            if (categories == null)
+            {
+                return NotFound(new { message = "No categories found" });
+            }
+
+            return Ok(categories);
+        }
+
+
         [HttpGet("getallcategories")]
         [Authorize]
         public async Task<ActionResult<IEnumerable<Category>>> GetAllCategories()
