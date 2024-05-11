@@ -91,7 +91,7 @@ namespace Blog.Repository
                     BlogId = blogId,
                     UserId = userId,
                     CommentText = commentDto.CommentText,
-                    CreatedAt = DateTime.UtcNow
+                    CreatedAt = DateTime.Now
                 });
 
                 return rowsAffected > 0;

@@ -219,8 +219,8 @@ order by _blog.CreatedAt desc
                 }
 
                 var query = @"
-                    INSERT INTO Blogs (BlogTitle, BlogContent, UserId, Image, CategoryId)
-                    VALUES (@BlogTitle, @BlogContent, @UserId, @Image, @CategoryId);
+                    INSERT INTO Blogs (BlogTitle, BlogContent, UserId, Image, CategoryId,CreatedAt)
+                    VALUES (@BlogTitle, @BlogContent, @UserId, @Image, @CategoryId,@CreatedAt);
                 ";
 
                 using (var connection = _context.CreateConnection())
@@ -231,7 +231,8 @@ order by _blog.CreatedAt desc
                         BlogContent = blogDto.BlogContent,
                         UserId = userId,
                         Image = imagePath,
-                        CategoryId = blogDto.CategoryId
+                        CategoryId = blogDto.CategoryId,
+                        CreatedAt=DateTime.Now
                     });
 
                     return rowsAffected > 0;
